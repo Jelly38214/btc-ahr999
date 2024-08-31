@@ -1,11 +1,11 @@
 {
-  "name": "my-app222",
+  "name": "btc-ahr",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node btc-ahr.mjs",
     "lint": "next lint"
   },
   "dependencies": {
