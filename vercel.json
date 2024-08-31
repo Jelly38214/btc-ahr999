@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/scheduled-task.ts": {
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs20.x"
     }
   },
   "crons": [
