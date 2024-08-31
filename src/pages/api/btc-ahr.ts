@@ -61,9 +61,11 @@ export default async function handler(
   serverRes: NextApiResponse
 ) {
   if (hasStartJob) {
-    serverRes
-      .status(200)
-      .json({ message: "Job started, check your notification on WeChat." });
+    serverRes.status(200).json({
+      message:
+        "Job started, check your notification on WeChat." +
+        process.env.app_token,
+    });
     return;
   }
 
@@ -77,5 +79,7 @@ export default async function handler(
     })();
   });
 
-  serverRes.status(200).json({ message: "Job is going to be started." });
+  serverRes
+    .status(200)
+    .json({ message: "Job is going to be started." + process.env.app_token });
 }
