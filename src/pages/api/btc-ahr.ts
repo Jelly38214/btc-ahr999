@@ -39,7 +39,7 @@ const ahrFetch = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        appToken,
+        appToken: process.env.app_token,
         content: JSON.stringify(btcAhr999),
         contentType: 1,
         summary: `BTC-${btcAhr999.btc}-AHR-${btcAhr999.ahr999}`,
@@ -81,5 +81,5 @@ export default async function handler(
 
   serverRes
     .status(200)
-    .json({ message: "Job is going to be started." + process.env.app_token });
+    .json({ message: "Job is going to be started." + appToken});
 }
