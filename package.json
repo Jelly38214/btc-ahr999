@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build": "yarn install",
     "start": "node btc-ahr.mjs"
   },
   "dependencies": {
-    "build": "yarn install",
     "node-cron": "^3.0.3"
   },
   "devDependencies": {
