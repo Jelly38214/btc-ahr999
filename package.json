@@ -6,6 +6,7 @@
     "start": "node btc-ahr.mjs"
   },
   "dependencies": {
+    "build": "yarn install",
     "node-cron": "^3.0.3"
   },
   "devDependencies": {
