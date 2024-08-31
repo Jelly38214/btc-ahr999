@@ -1,11 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import nodeCron from "node-cron";
 
+let hasStartJob = false;
 const appToken: string = process.env.app_token ?? "";
+const userIDs: string[] = [
+  "UID_9060m1uKN8xNGvPbuqvxxOMQYwB2",
+  "UID_xbFfSwmHfKcRCcRdMTOjFlWix0pk",
+];
 
-export default async function handler(
-  serverReq: NextApiRequest,
-  serverRes: NextApiResponse
-) {
+const ahrFetch = async () => {
   const btcAhr999 = await fetch(
     "https://dncapi.shermanantitrustact.com/api/v2/index/arh999?code=bitcoin&webp=1"
   )
@@ -24,7 +27,10 @@ export default async function handler(
 
       return null;
     })
-    .catch(() => null);
+    .catch(() => {
+      hasStartJob = false;
+      return null;
+    });
 
   if (btcAhr999) {
     await fetch("https://wxpusher.zjiecode.com/api/send/message", {
@@ -37,16 +43,40 @@ export default async function handler(
         content: JSON.stringify(btcAhr999),
         contentType: 1,
         summary: `BTC-${btcAhr999.btc}-AHR-${btcAhr999.ahr999}`,
-        uids: ["UID_9060m1uKN8xNGvPbuqvxxOMQYwB2"],
+        uids: userIDs,
         verifyPayType: 0,
       }),
     })
       .then((response) => response.json())
       .then(console.log)
       .catch((error) => {
+        hasStartJob = false;
         console.log("推送信息错误:", error);
       });
   }
+};
 
-  serverRes.status(200).json(btcAhr999 ?? { message: "Fail to get ahr999" });
+export default async function handler(
+  serverReq: NextApiRequest,
+  serverRes: NextApiResponse
+) {
+  if (hasStartJob) {
+    serverRes
+      .status(200)
+      .json({ message: "Job started, check your notification on WeChat." });
+    return;
+  }
+
+  {
+    hasStartJob = true;
+  }
+
+  const task = nodeCron.schedule("0 * * * *", () => {
+    (async () => {
+      await ahrFetch();
+    })();
+  });
+  task.start();
+
+  serverRes.status(200).json({ message: "Job is going to be started." });
 }
