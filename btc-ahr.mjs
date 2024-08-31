@@ -33,7 +33,7 @@ const ahrFetch = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        appToken: process.env.app_token,
+        appToken: "AT_NgZc5jrkn4ZZn7VeY0sktrnByvyel2XR",
         content: JSON.stringify(btcAhr999),
         contentType: 1,
         summary: `BTC-${btcAhr999.btc}-AHR-${btcAhr999.ahr999}`,
