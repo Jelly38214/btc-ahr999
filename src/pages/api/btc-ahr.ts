@@ -60,22 +60,25 @@ export default async function handler(
   serverReq: NextApiRequest,
   serverRes: NextApiResponse
 ) {
-  if (hasStartJob) {
-    serverRes.status(200).json({
-      message: "Job started, check your notification on WeChat.",
-    });
-    return;
-  }
+  // if (hasStartJob) {
+  //   serverRes.status(200).json({
+  //     message: "Job started, check your notification on WeChat.",
+  //   });
+  //   return;
+  // }
 
-  {
-    hasStartJob = true;
-  }
+  // {
+  //   hasStartJob = true;
+  // }
 
   const _task = nodeCron.schedule("*/1 * * * *", () => {
     (async () => {
-      await ahrFetch();
+      try {
+        await ahrFetch();
+        serverRes.status(200).json({ message: "Job is going to be started." });
+      } catch (error) {
+        serverRes.status(200).json({ message: JSON.stringify(error) });
+      }
     })();
   });
-
-  serverRes.status(200).json({ message: "Job is going to be started." });
 }
