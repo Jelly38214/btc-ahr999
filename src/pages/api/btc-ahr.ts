@@ -62,9 +62,7 @@ export default async function handler(
 ) {
   if (hasStartJob) {
     serverRes.status(200).json({
-      message:
-        "Job started, check your notification on WeChat." +
-        process.env.app_token,
+      message: "Job started, check your notification on WeChat.",
     });
     return;
   }
@@ -73,13 +71,11 @@ export default async function handler(
     hasStartJob = true;
   }
 
-  const _task = nodeCron.schedule("*/5 * * * *", () => {
+  const _task = nodeCron.schedule("*/1 * * * *", () => {
     (async () => {
       await ahrFetch();
     })();
   });
 
-  serverRes
-    .status(200)
-    .json({ message: "Job is going to be started." + appToken});
+  serverRes.status(200).json({ message: "Job is going to be started." });
 }
