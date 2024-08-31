@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/scheduled-task",
+      "path": "/api/btc-ahr",
       "schedule": "0 0 * * *"
     }
   ]
