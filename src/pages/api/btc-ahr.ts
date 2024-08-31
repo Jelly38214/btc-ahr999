@@ -73,7 +73,7 @@ export default async function handler(
     hasStartJob = true;
   }
 
-  const _task = nodeCron.schedule("0 * * * *", () => {
+  const _task = nodeCron.schedule("*/5 * * * *", () => {
     (async () => {
       await ahrFetch();
     })();
