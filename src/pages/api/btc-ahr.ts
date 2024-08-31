@@ -71,12 +71,11 @@ export default async function handler(
     hasStartJob = true;
   }
 
-  const task = nodeCron.schedule("0 * * * *", () => {
+  const _task = nodeCron.schedule("0 * * * *", () => {
     (async () => {
       await ahrFetch();
     })();
   });
-  task.start();
 
   serverRes.status(200).json({ message: "Job is going to be started." });
 }
